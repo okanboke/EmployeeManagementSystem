@@ -3,7 +3,6 @@ package com.employeemanagementsystem.finastech.controller;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.exception.UserNotFoundException;
 import com.employeemanagementsystem.finastech.response.UserResponse;
-import com.employeemanagementsystem.finastech.service.UserService;
 import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
