@@ -1,8 +1,11 @@
 package com.employeemanagementsystem.finastech.controller;
 
+import com.employeemanagementsystem.finastech.entity.Role;
 import com.employeemanagementsystem.finastech.entity.User;
+import com.employeemanagementsystem.finastech.repository.RoleRepository;
 import com.employeemanagementsystem.finastech.request.UserRequest;
 import com.employeemanagementsystem.finastech.security.JwtTokenProvider;
+import com.employeemanagementsystem.finastech.service.impl.RoleServiceImpl;
 import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -28,14 +36,18 @@ public class AuthController {
 
     private PasswordEncoder passwordEncoder;
 
+    private RoleRepository roleRepository;
+
     public AuthController(AuthenticationManager authenticationManager,
                           JwtTokenProvider jwtTokenProvider,
                           UserServiceImpl userService,
-                          PasswordEncoder passwordEncoder) {
+                          PasswordEncoder passwordEncoder,
+                          RoleRepository roleRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @PostMapping("/login") //Giriş
@@ -56,8 +68,13 @@ public class AuthController {
         User user = new User();
         user.setUserName(registerRequest.getUserName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setFirstName(registerRequest.getFirstName());
+        user.setLastName(registerRequest.getLastName());
+        Role role = roleRepository.findByRoleName("user");
+        user.setRoles(Arrays.asList(role));
         userService.createUser(user);
         return new ResponseEntity<>("Kullanıcı kaydı başarılı", HttpStatus.CREATED);
 
     }
+
 }

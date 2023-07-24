@@ -3,6 +3,8 @@ package com.employeemanagementsystem.finastech.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -10,11 +12,12 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "roles")
-@Data
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //Id üretecek
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roleName;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users = new ArrayList<>();
 }

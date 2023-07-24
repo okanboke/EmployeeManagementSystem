@@ -75,6 +75,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**")
                 .permitAll()
+                //.antMatchers("/admin/**").hasRole("admin") // "/admin/**" URL'leri için admin rolü gereklidir.
+                //.antMatchers("/user/**").hasRole("user") // "/user/**" URL'leri için user rolü gereklidir.
                 .anyRequest().authenticated();
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

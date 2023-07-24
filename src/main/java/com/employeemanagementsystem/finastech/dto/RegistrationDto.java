@@ -1,13 +1,9 @@
-package com.employeemanagementsystem.finastech.request;
+package com.employeemanagementsystem.finastech.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
-public class UserRequest {
+public class RegistrationDto {
 
     private Long id;
     private String userName;

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @RestController
@@ -47,5 +48,21 @@ public class AdminController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     private void handleUserNotFound() { //user bulunamaz ise buraya gelecek
         //message
+    }
+/*
+    //role initroles video
+    @PostConstruct
+    public void initRolesAndUsers() {
+        userService.initRoleAndUser();
+    }*/
+
+    @GetMapping({"/forAdmin"})
+    public String forAdmin() {
+        return "this URL is only accessible from admin";
+    }
+
+    @GetMapping({"/forUser"})
+    public String forUser() {
+        return "this URL is only accessible from user";
     }
 }

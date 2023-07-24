@@ -1,14 +1,22 @@
 package com.employeemanagementsystem.finastech.entity;
 
-import lombok.Data;
+import com.employeemanagementsystem.finastech.repository.RoleRepository;
+import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Id üretecek
@@ -24,6 +32,9 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> roles; //çoka çok ilişkili
+    private List<Role> roles = new ArrayList<>();//çoka çok ilişkili
+
+
+
 
 }
