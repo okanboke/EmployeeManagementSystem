@@ -1,7 +1,10 @@
 package com.employeemanagementsystem.finastech.security;
 
+import com.employeemanagementsystem.finastech.entity.Role;
 import com.employeemanagementsystem.finastech.entity.User;
+import com.employeemanagementsystem.finastech.repository.RoleRepository;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,8 +31,14 @@ public class JwtUserDetails implements UserDetails {
     }
 
     public static JwtUserDetails create(User user) {
+        List<Role> roles = user.getRoles();
+
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
-        authoritiesList.add(new SimpleGrantedAuthority("user"));
+        //authoritiesList.add(new SimpleGrantedAuthority("user"));
+
+        for(Role role : roles) {
+            authoritiesList.add(new SimpleGrantedAuthority(role.getRoleName()));
+        }
         return new JwtUserDetails(user.getId(), user.getUserName(), user.getPassword(),authoritiesList);
     }
 
@@ -57,4 +66,5 @@ public class JwtUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

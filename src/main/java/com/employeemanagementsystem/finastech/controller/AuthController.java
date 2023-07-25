@@ -5,7 +5,6 @@ import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.RoleRepository;
 import com.employeemanagementsystem.finastech.request.UserRequest;
 import com.employeemanagementsystem.finastech.security.JwtTokenProvider;
-import com.employeemanagementsystem.finastech.service.impl.RoleServiceImpl;
 import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -59,7 +55,7 @@ public class AuthController {
         return "Bearer " +  jwtToken;
     }
 
-    @PostMapping("/register") //Kayıt
+    @PostMapping("/admin/register") //Kayıt
     public ResponseEntity<String> register(@RequestBody UserRequest registerRequest) {
         if(userService.getOneUserByUserName(registerRequest.getUserName()) != null)
             return new ResponseEntity<>("Kullanıcı adı zaten kayıtlı", HttpStatus.BAD_REQUEST);

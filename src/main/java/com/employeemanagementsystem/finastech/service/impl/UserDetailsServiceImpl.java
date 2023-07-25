@@ -19,7 +19,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(userName);
-        return JwtUserDetails.create(user);
+        if(user != null) {
+            return JwtUserDetails.create(user);
+        }
+        //return JwtUserDetails.create(user);
+        throw new UsernameNotFoundException("could not find user" + userName);
     }
 
     public UserDetails loadUserById(Long id) {

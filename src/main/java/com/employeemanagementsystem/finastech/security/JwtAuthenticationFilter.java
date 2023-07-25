@@ -29,6 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         try {
             String jwtToken = exractJwtFromRequest(request);
+            if(jwtToken.isBlank()){
+                filterChain.doFilter(request, response);
+            }
             if(StringUtils.hasText(jwtToken) && jwtTokenProvider.validateToken(jwtToken)) { //token valid mi kontrolü
                 Long id = jwtTokenProvider.getUserIdFromJwt(jwtToken);
                 UserDetails user = userDetailsService.loadUserById(id);

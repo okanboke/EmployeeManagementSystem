@@ -6,7 +6,9 @@ import com.employeemanagementsystem.finastech.service.impl.UserDetailsServiceImp
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,6 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -66,20 +70,31 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+        /*httpSecurity
                 .cors()
                 .and()
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(handler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/api/auth/login") // " / slash sonuna ** çift yıldız koyunca bütün endpointleri kapsar
                 .permitAll()
-                //.antMatchers("/admin/**").hasRole("admin") // "/admin/**" URL'leri için admin rolü gereklidir.
-                //.antMatchers("/user/**").hasRole("user") // "/user/**" URL'leri için user rolü gereklidir.
+                .antMatchers("/api/auth/admin/register").hasAuthority("admin") // "/admin/**" URL'leri için admin rolü gereklidir.
+                .antMatchers("/user/**").hasRole("user") // "/user/**" URL'leri için user rolü gereklidir.
                 .anyRequest().authenticated();
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
+        return httpSecurity.build();*/
+
+        return httpSecurity.cors(withDefaults())
+                .csrf((csrf) -> csrf.disable())
+                .authorizeHttpRequests((authorize) -> authorize
+                        .antMatchers("/api/auth/admin/**").hasAuthority("admin")
+                        .antMatchers("/api/auth/login/**").permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .build();
 
     }
+
 }
