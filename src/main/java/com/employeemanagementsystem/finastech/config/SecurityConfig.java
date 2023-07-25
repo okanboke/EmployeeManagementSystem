@@ -87,6 +87,7 @@ public class SecurityConfig {
 
         return httpSecurity.cors(withDefaults())
                 .csrf((csrf) -> csrf.disable())
+                .exceptionHandling().authenticationEntryPoint(handler).and() //sonradan eklendi.
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/api/auth/admin/**").hasAuthority("admin")
                         .antMatchers("/api/auth/login/**").permitAll()
