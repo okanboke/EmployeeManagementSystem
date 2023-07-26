@@ -91,6 +91,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/api/auth/admin/**").hasAuthority("admin")
                         .antMatchers("/api/auth/login/**").permitAll()
+                        .antMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

@@ -53,6 +53,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(auth);
         String jwtToken = jwtTokenProvider.generateJwtToken(auth);
         return "Bearer " +  jwtToken;
+
     }
 
     @PostMapping("/admin/register") //Kayıt
