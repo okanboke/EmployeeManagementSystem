@@ -1,10 +1,14 @@
 package com.employeemanagementsystem.finastech.controller;
 
+import com.employeemanagementsystem.finastech.entity.RefreshToken;
 import com.employeemanagementsystem.finastech.entity.Role;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.RoleRepository;
+import com.employeemanagementsystem.finastech.request.RefreshRequest;
 import com.employeemanagementsystem.finastech.request.UserRequest;
+import com.employeemanagementsystem.finastech.response.AuthResponse;
 import com.employeemanagementsystem.finastech.security.JwtTokenProvider;
+import com.employeemanagementsystem.finastech.service.impl.RefreshTokenService;
 import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -34,34 +39,42 @@ public class AuthController {
 
     private RoleRepository roleRepository;
 
+    private RefreshTokenService refreshTokenService;
+
     public AuthController(AuthenticationManager authenticationManager,
                           JwtTokenProvider jwtTokenProvider,
                           UserServiceImpl userService,
                           PasswordEncoder passwordEncoder,
-                          RoleRepository roleRepository) {
+                          RoleRepository roleRepository,
+                          RefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/login") //Giriş
-    public String login(@RequestBody UserRequest loginRequest) {
+    public AuthResponse login(@RequestBody UserRequest loginRequest) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
         Authentication auth = authenticationManager.authenticate(authToken);
         SecurityContextHolder.getContext().setAuthentication(auth);
         String jwtToken = jwtTokenProvider.generateJwtToken(auth);
-        return "Bearer " +  jwtToken;
+        User user = userService.getOneUserByUserName(loginRequest.getUserName());
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setAccessToken("Bearer " + jwtToken);
+        authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
+        authResponse.setUserId(user.getId());
+        return authResponse;
+        //return "Bearer " +  jwtToken;
 
     }
 
-    @PostMapping("/admin/register") //Kayıt
+    @PostMapping("/admin/create-user") //Kayıt
     public ResponseEntity<String> register(@RequestBody UserRequest registerRequest) {
         if(userService.getOneUserByUserName(registerRequest.getUserName()) != null)
             return new ResponseEntity<>("Kullanıcı adı zaten kayıtlı", HttpStatus.BAD_REQUEST);
-
-
         User user = new User();
         user.setUserName(registerRequest.getUserName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -71,7 +84,26 @@ public class AuthController {
         user.setRoles(Arrays.asList(role));
         userService.createUser(user);
         return new ResponseEntity<>("Kullanıcı kaydı başarılı", HttpStatus.CREATED);
+    }
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshRequest refreshRequest) {
+        AuthResponse response = new AuthResponse();
+        RefreshToken token = refreshTokenService.getByUser(refreshRequest.getUserId());
+        if(token.getToken().equals(refreshRequest.getRefreshToken()) &&
+                !refreshTokenService.isRefreshExpired(token)) {
+
+            User user = token.getUser();
+            String jwtToken = jwtTokenProvider.generateJwtTokenByUserId(user.getId());
+            response.setMessage("token successfully refreshed.");
+            response.setAccessToken("Bearer " + jwtToken);
+            response.setUserId(user.getId());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.setMessage("refresh token is not valid.");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
 
     }
+
 
 }

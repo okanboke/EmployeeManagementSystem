@@ -5,6 +5,7 @@ import com.employeemanagementsystem.finastech.security.JwtAuthenticationFilter;
 import com.employeemanagementsystem.finastech.service.impl.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,6 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -49,13 +55,13 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+        //config.addAllowedOrigin("*");
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
@@ -67,6 +73,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -83,20 +90,30 @@ public class SecurityConfig {
                 .antMatchers("/user/**").hasRole("user") // "/user/**" URL'leri için user rolü gereklidir.
                 .anyRequest().authenticated();
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();*/
-
-        return httpSecurity.cors(withDefaults())
+        return httpSecurity.build();
+*************/
+         httpSecurity
+                .cors(withDefaults())
                 .csrf((csrf) -> csrf.disable())
                 .exceptionHandling().authenticationEntryPoint(handler).and() //sonradan eklendi.
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/api/auth/admin/**").hasAuthority("admin")
-                        .antMatchers("/api/auth/login/**").permitAll()
-                        .antMatchers("/api/auth/**").permitAll()
+                        .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        return httpSecurity.build();
+    }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedMethods("*");
+            }
+        };
     }
 
 }

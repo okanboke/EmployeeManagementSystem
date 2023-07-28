@@ -16,6 +16,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    /*
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByUserName(userName);
@@ -24,6 +25,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         //return JwtUserDetails.create(user);
         throw new UsernameNotFoundException("could not find user" + userName);
+    }*/
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUserName(username);
+        return JwtUserDetails.create(user);
     }
 
     public UserDetails loadUserById(Long id) {

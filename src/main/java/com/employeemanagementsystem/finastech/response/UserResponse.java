@@ -1,9 +1,12 @@
 package com.employeemanagementsystem.finastech.response;
 
 import com.employeemanagementsystem.finastech.entity.User;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserResponse {
 
     private Long id;

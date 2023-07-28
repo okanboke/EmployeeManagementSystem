@@ -3,9 +3,7 @@ package com.employeemanagementsystem.finastech.security;
 import com.employeemanagementsystem.finastech.entity.Role;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.RoleRepository;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +14,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@Data
 public class JwtUserDetails implements UserDetails {
 
     public Long id;
@@ -23,7 +23,8 @@ public class JwtUserDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    private JwtUserDetails(Long id, String userName, String password, Collection<? extends GrantedAuthority> authorities) {
+    private JwtUserDetails(Long id, String userName, String password,
+                           Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -32,9 +33,8 @@ public class JwtUserDetails implements UserDetails {
 
     public static JwtUserDetails create(User user) {
         List<Role> roles = user.getRoles();
-
         List<GrantedAuthority> authoritiesList = new ArrayList<>();
-        //authoritiesList.add(new SimpleGrantedAuthority("user"));
+        authoritiesList.add(new SimpleGrantedAuthority("user"));
 
         for(Role role : roles) {
             authoritiesList.add(new SimpleGrantedAuthority(role.getRoleName()));
@@ -43,8 +43,13 @@ public class JwtUserDetails implements UserDetails {
     }
 
     @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
     public String getUsername() {
-        return null;
+        return userName;
     }
 
     @Override

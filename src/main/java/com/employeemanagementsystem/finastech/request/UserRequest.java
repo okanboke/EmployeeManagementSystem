@@ -1,10 +1,12 @@
 package com.employeemanagementsystem.finastech.request;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.employeemanagementsystem.finastech.entity.Role;
+import lombok.*;
 
-@Data
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class UserRequest {
