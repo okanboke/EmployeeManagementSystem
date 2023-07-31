@@ -80,6 +80,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
+        user.setUserDate(registerRequest.getUserDate());
         Role role = roleRepository.findByRoleName("user");
         user.setRoles(Arrays.asList(role));
         userService.createUser(user);

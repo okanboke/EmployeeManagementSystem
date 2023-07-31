@@ -2,6 +2,7 @@ package com.employeemanagementsystem.finastech.service;
 
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.dto.RegistrationDto;
+import com.employeemanagementsystem.finastech.response.AllUserResponse;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public interface UserService {
 
     User createUser(User user);
 
-    List<User> getAllUsers();
+    List<AllUserResponse> getAllUsers();
 
     User getOneUserById(Long userId);
 

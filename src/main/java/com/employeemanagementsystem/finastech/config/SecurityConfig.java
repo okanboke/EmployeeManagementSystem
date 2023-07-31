@@ -97,7 +97,9 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf.disable())
                 .exceptionHandling().authenticationEntryPoint(handler).and() //sonradan eklendi.
                 .authorizeHttpRequests((authorize) -> authorize
-                        .antMatchers("/api/auth/admin/**").hasAuthority("admin")
+                        .antMatchers("/api/auth/admin/**").hasAuthority("admin") //sadece admin erişebilir
+                        .antMatchers(HttpMethod.GET,"/api/admin/list-user").hasAuthority("admin") //sadece admin erişebilir
+
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

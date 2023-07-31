@@ -2,6 +2,7 @@ package com.employeemanagementsystem.finastech.controller;
 
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.exception.UserNotFoundException;
+import com.employeemanagementsystem.finastech.response.AllUserResponse;
 import com.employeemanagementsystem.finastech.response.UserResponse;
 import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 
     private final UserServiceImpl userService;
@@ -24,7 +25,7 @@ public class AdminController {
     }
 
     @GetMapping("/list-user")
-    public List<User> getAllUsers(){
+    public List<AllUserResponse> getAllUsers(){
         return userService.getAllUsers();
     }   //userService sınıfındaki metoda gider User listeler.
 

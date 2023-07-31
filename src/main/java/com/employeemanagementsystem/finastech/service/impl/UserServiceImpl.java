@@ -5,14 +5,13 @@ import com.employeemanagementsystem.finastech.entity.Role;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.RoleRepository;
 import com.employeemanagementsystem.finastech.repository.UserRepository;
+import com.employeemanagementsystem.finastech.response.AllUserResponse;
 import com.employeemanagementsystem.finastech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -33,8 +32,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() { //tüm kullanıcılar listelenecek
-        return userRepository.findAll();
+    public List<AllUserResponse> getAllUsers() { //tüm kullanıcılar listelenecek
+       List<User> list;
+       list = userRepository.findAll();
+       return list.stream().map(users -> new AllUserResponse(users)).collect(Collectors.toList());
     }
 
     @Override
