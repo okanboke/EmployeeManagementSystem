@@ -1,5 +1,6 @@
 package com.employeemanagementsystem.finastech.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roleName;
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
+    @JsonIgnore //sonsuz döngüye girmemesi için(Önemli)
     private List<User> users = new ArrayList<>();
 }
