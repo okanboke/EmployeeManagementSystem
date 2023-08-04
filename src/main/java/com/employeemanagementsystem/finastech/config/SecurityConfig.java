@@ -1,15 +1,13 @@
 package com.employeemanagementsystem.finastech.config;
-
 import com.employeemanagementsystem.finastech.security.JwtAuthenticationEntryPoint;
 import com.employeemanagementsystem.finastech.security.JwtAuthenticationFilter;
 import com.employeemanagementsystem.finastech.service.impl.UserDetailsServiceImpl;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.SecurityBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,7 +22,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Collections;
-import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -77,21 +74,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        /*httpSecurity
-                .cors()
-                .and()
-                .csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(handler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                .antMatchers("/api/auth/login") // " / slash sonuna ** çift yıldız koyunca bütün endpointleri kapsar
-                .permitAll()
-                .antMatchers("/api/auth/admin/register").hasAuthority("admin") // "/admin/**" URL'leri için admin rolü gereklidir.
-                .antMatchers("/user/**").hasRole("user") // "/user/**" URL'leri için user rolü gereklidir.
-                .anyRequest().authenticated();
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        return httpSecurity.build();
-*************/
          httpSecurity
                 .cors(withDefaults())
                 .csrf((csrf) -> csrf.disable())
@@ -99,8 +81,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/api/auth/admin/**").hasAuthority("admin") //sadece admin erişebilir
                         .antMatchers(HttpMethod.GET,"/api/admin/list-user").hasAuthority("admin") //sadece admin erişebilir
+                        .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
-                        .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .antMatchers(HttpMethod.POST, "/api/employee/**").hasAuthority("user")
+                        .antMatchers(HttpMethod.POST, "/api/auth/user/login").permitAll() //sadece admin erişebilir
+
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

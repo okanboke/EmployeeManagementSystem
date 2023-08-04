@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,10 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -64,7 +60,7 @@ public class AuthController {
         this.refreshTokenService = refreshTokenService;
         this.userRepository = userRepository;
     }
-
+    //admin Login
     @PostMapping("/login") //Giriş
     public AuthResponse login(@RequestBody UserRequest loginRequest) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
@@ -77,11 +73,27 @@ public class AuthController {
         authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
         authResponse.setUserId(user.getId());
         authResponse.setRoles(user.getRoles());
-        //.stream().collect(Collectors.toUnmodifiableList()); //role bilgisi
         return authResponse;
         //return "Bearer " +  jwtToken;
-
     }
+
+    //user Login
+    @PostMapping("/user/login") //Giriş
+    public AuthResponse userLogin(@RequestBody UserRequest loginRequest) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword());
+        Authentication auth = authenticationManager.authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        String jwtToken = jwtTokenProvider.generateJwtToken(auth);
+        User user = userService.getOneUserByUserName(loginRequest.getUserName());
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setAccessToken("Bearer " + jwtToken);
+        authResponse.setRefreshToken(refreshTokenService.createRefreshToken(user));
+        authResponse.setUserId(user.getId());
+        authResponse.setRoles(user.getRoles());
+        return authResponse;
+        //return "Bearer " +  jwtToken;
+    }
+
     @PostMapping("/admin/create-user") //Kayıt
     public ResponseEntity<String> register(@RequestBody UserRequest registerRequest) {
         if(userService.getOneUserByUserName(registerRequest.getUserName()) != null)

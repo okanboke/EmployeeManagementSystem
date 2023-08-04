@@ -1,12 +1,17 @@
 package com.employeemanagementsystem.finastech.entity;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "addresses")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
 
     @Id
@@ -14,10 +19,9 @@ public class Address {
     private Long addressId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
-
-
 
     private String street;
     private String district;
