@@ -2,7 +2,10 @@ package com.employeemanagementsystem.finastech.entity;
 
 import com.employeemanagementsystem.finastech.repository.RoleRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
@@ -28,6 +31,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date userDate;

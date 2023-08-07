@@ -84,8 +84,9 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
                         .antMatchers(HttpMethod.POST, "/api/employee/**").hasAuthority("user")
-                        .antMatchers(HttpMethod.GET, "/api/employee/**").hasAuthority("user") //sadece admin erişebilir
-                        .antMatchers(HttpMethod.POST, "/api/auth/user/login").permitAll() //sadece admin erişebilir
+                        .antMatchers(HttpMethod.GET, "/api/employee/**").hasAuthority("user")
+                        .antMatchers(HttpMethod.PUT, "/api/employee/**").hasAuthority("user") //sadece admin erişebilir
+                        .antMatchers(HttpMethod.POST, "/api/auth/user/login").permitAll()
 
                         .anyRequest().authenticated())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

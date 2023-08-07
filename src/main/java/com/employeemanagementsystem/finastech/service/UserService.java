@@ -12,6 +12,7 @@ public interface UserService {
 
     User createUser(User user);
 
+    //bütün kullanıcılar
     List<AllUserResponse> getAllUsers();
 
     User getOneUserById(Long userId);

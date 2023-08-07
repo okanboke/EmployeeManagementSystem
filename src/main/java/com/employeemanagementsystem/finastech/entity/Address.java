@@ -1,5 +1,6 @@
 package com.employeemanagementsystem.finastech.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,7 +19,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Id üretecek
     private Long addressId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
