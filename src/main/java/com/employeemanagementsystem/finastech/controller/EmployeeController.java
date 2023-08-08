@@ -41,9 +41,9 @@ public class EmployeeController {
     public AddressResponse getOneAddress(@PathVariable Long userId) {
         Address address = employeeService.getOneByAddressUserId(userId);
 
-        /*if(address == null) { //öyle bir adress yok
+        if(address == null) { //öyle bir adress yok
             throw new UserNotFoundException();
-        }*/
+        }
         return new AddressResponse(address);
 
     }
@@ -58,13 +58,13 @@ public class EmployeeController {
         return new AddressResponse(address);
 
     }
-
     //Çalışan adres ve profil bilgileri ekleme
     @PostMapping("/edit-profile")
     public Address createProfile(
             @RequestBody CreateProfileRequest createProfileRequest) {
         return employeeService.createProfile(createProfileRequest);
     }
+    //çalışan adres güncelleme
     @PutMapping("/update-address")
     public Address updateAddress(
             @RequestBody CreateProfileRequest createProfileRequest) {
