@@ -12,11 +12,12 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeaveCreateRequest {
+public class JustificationCreateRequest {
 
-    private Long id;
+    private Long permissionId;
     private Long userId;
-    private String leaveType;
+    private String permissionType;
+    private String permissionDescription;
     private LocalDate startDate;
     private LocalDate endDate;
     private String approvalStatus;

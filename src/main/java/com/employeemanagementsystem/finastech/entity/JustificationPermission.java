@@ -9,16 +9,16 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "leaves")
+@Table(name = "justification_permission")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Leaves {
+public class JustificationPermission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Id üretecek
-    private Long leaveId;
+    private Long permissionId;
 
     @ManyToOne(fetch = FetchType.EAGER) //bire çok ilişki uyguluyoruz bir çok ürünün tek bir user'ı olabilir.
     @JoinColumn(name="user_id", nullable = false) //JoinColumn ile tabloları birbirine bağlıyoruz.
@@ -26,7 +26,8 @@ public class Leaves {
     @JsonIgnore
     private User user;
 
-    private String leaveType;
+    private String permissionType;
+    private String permissionDescription;
     private LocalDate startDate;
     private LocalDate endDate;
     private String approvalStatus;
