@@ -30,7 +30,7 @@ public class JustificationPermission {
     private String permissionDescription;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String approvalStatus;
+    private boolean approvalStatus; //izin istendiğinde false olacak sonra admin onaylayacak.
 
 
 }

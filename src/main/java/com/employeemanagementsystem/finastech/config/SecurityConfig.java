@@ -81,6 +81,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/api/auth/admin/**").hasAuthority("admin") //sadece admin erişebilir
                         .antMatchers(HttpMethod.GET,"/api/admin/list-user").hasAuthority("admin") //sadece admin erişebilir
+                        .antMatchers(HttpMethod.GET,"/api/admin/list-justification").hasAuthority("admin")  //sadece admin erişebilir
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
                         .antMatchers(HttpMethod.POST, "/api/employee/**").hasAuthority("user")
@@ -104,5 +105,4 @@ public class SecurityConfig {
             }
         };
     }
-
 }

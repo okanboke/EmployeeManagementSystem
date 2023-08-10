@@ -20,6 +20,6 @@ public class JustificationCreateRequest {
     private String permissionDescription;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String approvalStatus;
+    private boolean approvalStatus = false;
 
 }
