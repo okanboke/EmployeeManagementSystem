@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -44,7 +43,6 @@ public class AuthController {
 
     private UserRepository userRepository;
 
-
     public AuthController(AuthenticationManager authenticationManager,
                           JwtTokenProvider jwtTokenProvider,
                           UserServiceImpl userService,
@@ -60,6 +58,7 @@ public class AuthController {
         this.refreshTokenService = refreshTokenService;
         this.userRepository = userRepository;
     }
+
     //admin Login
     @PostMapping("/login") //Giriş
     public AuthResponse login(@RequestBody UserRequest loginRequest) {
@@ -109,6 +108,7 @@ public class AuthController {
         userService.createUser(user);
         return new ResponseEntity<>("Kullanıcı kaydı başarılı", HttpStatus.CREATED);
     }
+
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshRequest refreshRequest) {
         AuthResponse response = new AuthResponse();

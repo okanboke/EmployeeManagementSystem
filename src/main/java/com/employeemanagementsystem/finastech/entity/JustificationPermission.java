@@ -7,6 +7,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "justification_permission")
@@ -26,11 +28,15 @@ public class JustificationPermission {
     @JsonIgnore
     private User user;
 
-    private String permissionType;
+    //private String permissionType;
     private String permissionDescription;
     private LocalDate startDate;
     private LocalDate endDate;
     private boolean approvalStatus; //izin istendiğinde false olacak sonra admin onaylayacak.
 
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "just_per_id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private JustPerType justPerType;
 
 }

@@ -34,7 +34,7 @@ public class JustificationServiceImpl implements JustificationService {
 
         JustificationPermission toSave = new JustificationPermission();
         toSave.setPermissionId(justificationCreateRequest.getPermissionId());
-        toSave.setPermissionType(justificationCreateRequest.getPermissionType());
+        //toSave.setJustPerType(justificationCreateRequest.);
         toSave.setPermissionDescription(justificationCreateRequest.getPermissionDescription());
         toSave.setStartDate(justificationCreateRequest.getStartDate());
         toSave.setEndDate(justificationCreateRequest.getEndDate());

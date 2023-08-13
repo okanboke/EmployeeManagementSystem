@@ -71,7 +71,6 @@ public class SecurityConfig {
         return new CorsFilter(source);
     }
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
          httpSecurity

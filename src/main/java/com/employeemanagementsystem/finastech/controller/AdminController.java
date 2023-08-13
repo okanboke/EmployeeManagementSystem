@@ -1,11 +1,9 @@
 package com.employeemanagementsystem.finastech.controller;
-
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.exception.UserNotFoundException;
 import com.employeemanagementsystem.finastech.response.AllUserResponse;
 import com.employeemanagementsystem.finastech.response.JustificationPerResponse;
 import com.employeemanagementsystem.finastech.response.UserResponse;
-import com.employeemanagementsystem.finastech.service.JustificationService;
 import com.employeemanagementsystem.finastech.service.impl.JustificationServiceImpl;
 import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +49,7 @@ public class AdminController {
     @GetMapping("/list-justification") //Role Admin
     public List<JustificationPerResponse> getAllJustificationPermission(){
         return justificationService.getAllJustificationPermission();
-    }   //userService sınıfındaki metoda gider User listeler.
+    }
 
     //kullanıcı ekleme
     @PostMapping("/create-user") //User ekleme

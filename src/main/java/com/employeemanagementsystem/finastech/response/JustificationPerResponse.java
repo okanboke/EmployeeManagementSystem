@@ -28,7 +28,7 @@ public class JustificationPerResponse {
         this.userName = entity.getUser().getUserName();
         this.firstName = entity.getUser().getFirstName();
         this.lastName = entity.getUser().getLastName();
-        this.permissionType = entity.getPermissionType();
+        this.permissionType = entity.getJustPerType().getJustPermissionType();
         this.permissionDescription = entity.getPermissionDescription();
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
