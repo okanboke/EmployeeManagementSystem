@@ -16,7 +16,7 @@ public class JustificationCreateRequest {
 
     private Long permissionId;
     private Long userId;
-    private String permissionType;
+    private Long permissionTypeId;
     private String permissionDescription;
     private LocalDate startDate;
     private LocalDate endDate;

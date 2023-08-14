@@ -37,6 +37,7 @@ public class JustificationPermission {
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "just_per_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private JustPerType justPerType;
 
 }

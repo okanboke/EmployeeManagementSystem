@@ -1,8 +1,8 @@
 package com.employeemanagementsystem.finastech.service.impl;
 
 import com.employeemanagementsystem.finastech.entity.JustPerType;
-import com.employeemanagementsystem.finastech.entity.JustificationPermission;
 import com.employeemanagementsystem.finastech.repository.JustPerTypeRepository;
+import com.employeemanagementsystem.finastech.response.AllUserResponse;
 import com.employeemanagementsystem.finastech.response.JustPerTypeResponse;
 import com.employeemanagementsystem.finastech.response.JustificationPerResponse;
 import com.employeemanagementsystem.finastech.service.JustPerTypeService;
@@ -22,10 +22,25 @@ public class JustPerTypeServiceImpl implements JustPerTypeService {
 
     }
 
+    //for User Get
     @Override
     public List<JustPerTypeResponse> getAllJustPerType() {
         List<JustPerType> list;
         list = justPerTypeRepository.findAll();
-        return null;
+        return list.stream().map(justification_permission_type -> new JustPerTypeResponse(justification_permission_type)).collect(Collectors.toList());
+
+    }
+
+    //for Admin Post
+    @Override
+    public JustPerType createJustPerType(JustPerType justPerType) {
+        return justPerTypeRepository.save(justPerType);
+    }
+
+    //spesifik bir tür arayacak
+    @Override
+    public JustPerType getOneJustPerTypeById(Long permissionTypeId) {
+        return justPerTypeRepository.findById(permissionTypeId).orElse(null);
+
     }
 }

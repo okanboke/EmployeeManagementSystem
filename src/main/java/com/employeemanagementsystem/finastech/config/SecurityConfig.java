@@ -57,7 +57,6 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        //config.addAllowedOrigin("*");
         config.setAllowedOriginPatterns(Collections.singletonList("*"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
@@ -81,11 +80,13 @@ public class SecurityConfig {
                         .antMatchers("/api/auth/admin/**").hasAuthority("admin") //sadece admin erişebilir
                         .antMatchers(HttpMethod.GET,"/api/admin/list-user").hasAuthority("admin") //sadece admin erişebilir
                         .antMatchers(HttpMethod.GET,"/api/admin/list-justification").hasAuthority("admin")  //sadece admin erişebilir
+                        .antMatchers(HttpMethod.POST,  "/api/permissions/type/admin/create-type").hasAuthority("admin")
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
                         .antMatchers(HttpMethod.POST, "/api/employee/**").hasAuthority("user")
                         .antMatchers(HttpMethod.GET, "/api/employee/**").hasAuthority("user")
                         .antMatchers(HttpMethod.PUT, "/api/employee/**").hasAuthority("user") //sadece admin erişebilir
+                        .antMatchers(HttpMethod.GET, "/api/permissions/type//user/list-types").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/auth/user/login").permitAll()
 
                         .anyRequest().authenticated())

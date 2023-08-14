@@ -1,5 +1,6 @@
 package com.employeemanagementsystem.finastech.service.impl;
 
+import com.employeemanagementsystem.finastech.entity.JustPerType;
 import com.employeemanagementsystem.finastech.entity.JustificationPermission;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.JustificationRepository;
@@ -18,32 +19,39 @@ public class JustificationServiceImpl implements JustificationService {
     private final UserServiceImpl userService;
     private final JustificationRepository justificationRepository;
 
+    private final JustPerTypeServiceImpl justPerTypeService;
+
 
     public JustificationServiceImpl(UserServiceImpl userService,
-                                    JustificationRepository justificationRepository) {
+                                    JustificationRepository justificationRepository,
+                                    JustPerTypeServiceImpl justPerTypeService) {
         this.userService = userService;
         this.justificationRepository = justificationRepository;
+        this.justPerTypeService = justPerTypeService;
     }
 
     @Override
     public JustificationPermission createOneLeave(JustificationCreateRequest justificationCreateRequest) {
         User user = userService.getOneUserById(justificationCreateRequest.getUserId()); //user kontrolü yapıp post ekleyeceğiz
 
-        if(user == null)
+        //İzin tipi tabloya id ile eşleşecek
+        JustPerType justPerType = justPerTypeService.getOneJustPerTypeById(justificationCreateRequest.getPermissionTypeId());
+        if(user == null && justPerType == null)
             return null;
 
         JustificationPermission toSave = new JustificationPermission();
         toSave.setPermissionId(justificationCreateRequest.getPermissionId());
-        //toSave.setJustPerType(justificationCreateRequest.);
+        //toSave.getJustPerType().setJustPerId(justificationCreateRequest.getPermissionTypeId());
         toSave.setPermissionDescription(justificationCreateRequest.getPermissionDescription());
         toSave.setStartDate(justificationCreateRequest.getStartDate());
         toSave.setEndDate(justificationCreateRequest.getEndDate());
         toSave.setApprovalStatus(justificationCreateRequest.isApprovalStatus());
 
+        toSave.setJustPerType(justPerType);
         toSave.setUser(user);
         return justificationRepository.save(toSave);    }
 
-    //Mazeret İzin isteklerini listeleme
+    //Mazeret İzin isteklerini listeleme Admin
     @Override
     public List<JustificationPerResponse> getAllJustificationPermission() {
         List<JustificationPermission> list;
