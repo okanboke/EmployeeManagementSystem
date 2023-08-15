@@ -1,7 +1,6 @@
 package com.employeemanagementsystem.finastech.controller;
 
 import com.employeemanagementsystem.finastech.entity.JustPerType;
-import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.response.JustPerTypeResponse;
 import com.employeemanagementsystem.finastech.service.impl.JustPerTypeServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -34,4 +33,9 @@ public class JustPerTypeController {
 
     }
 
+    //for admin izin türü silme
+    @DeleteMapping("/admin/{justPerId}")
+    public void deleteJustPerType(@PathVariable Long justPerId){
+        justPerTypeService.deleteJustPerType(justPerId);
     }
+}

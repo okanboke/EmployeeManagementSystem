@@ -17,6 +17,7 @@ public class JustificationController {
         this.justificationService = justificationService;
     }
 
+
     // izin isteği
     @PostMapping("/create") //role User
     public JustificationPermission createOneLeave(

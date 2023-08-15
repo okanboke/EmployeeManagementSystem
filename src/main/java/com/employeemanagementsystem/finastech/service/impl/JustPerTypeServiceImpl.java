@@ -43,4 +43,10 @@ public class JustPerTypeServiceImpl implements JustPerTypeService {
         return justPerTypeRepository.findById(permissionTypeId).orElse(null);
 
     }
+    //for admin izin türü silme
+    @Override
+    public void deleteJustPerType(Long justPerId) {
+        justPerTypeRepository.deleteById(justPerId);
+    }
+
 }

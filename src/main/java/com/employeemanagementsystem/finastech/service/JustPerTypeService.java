@@ -11,4 +11,6 @@ public interface JustPerTypeService {
     JustPerType createJustPerType(JustPerType justPerType);
 
     JustPerType getOneJustPerTypeById(Long permissionTypeId);
+
+    void deleteJustPerType(Long justPerId);
 }

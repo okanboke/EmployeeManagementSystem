@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class JustificationPerResponse {
 
     //Get Justification Permissions Admin/User panel
-    private Long permissionId;
+    private Long id;
     private Long userId;
     private String userName;
     private String firstName;
@@ -23,7 +23,7 @@ public class JustificationPerResponse {
     private boolean approvalStatus;
 
     public JustificationPerResponse(JustificationPermission entity) {
-        this.permissionId = entity.getPermissionId();
+        this.id = entity.getPermissionId();
         this.userId = entity.getUser().getId();
         this.userName = entity.getUser().getUserName();
         this.firstName = entity.getUser().getFirstName();
