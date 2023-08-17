@@ -5,6 +5,7 @@ import com.employeemanagementsystem.finastech.entity.JustificationPermission;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.JustificationRepository;
 import com.employeemanagementsystem.finastech.request.JustificationCreateRequest;
+import com.employeemanagementsystem.finastech.request.UpdatePermissionRequest;
 import com.employeemanagementsystem.finastech.response.AllUserResponse;
 import com.employeemanagementsystem.finastech.response.JustificationPerResponse;
 import com.employeemanagementsystem.finastech.service.JustificationService;
@@ -57,5 +58,19 @@ public class JustificationServiceImpl implements JustificationService {
         List<JustificationPermission> list;
         list = justificationRepository.findAll();
         return list.stream().map(justification_permission -> new JustificationPerResponse(justification_permission)).collect(Collectors.toList());
+    }
+
+    //for admin izin onayı
+    //koşul eklenecek
+    @Override
+    public JustificationPermission updatePermissionStatus(UpdatePermissionRequest updatePermissionRequest) {
+        return justificationRepository.findById(updatePermissionRequest.getPermissionId())
+                .map(justification_permission -> {
+                    justification_permission.setApprovalStatus(updatePermissionRequest.isApprovalStatus());
+                    return justificationRepository.save(justification_permission);
+                })
+                .orElseGet(() -> {
+                    return null;
+                });
     }
 }

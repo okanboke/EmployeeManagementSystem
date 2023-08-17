@@ -1,6 +1,8 @@
 package com.employeemanagementsystem.finastech.controller;
 
+import com.employeemanagementsystem.finastech.entity.Address;
 import com.employeemanagementsystem.finastech.entity.JustPerType;
+import com.employeemanagementsystem.finastech.request.CreateProfileRequest;
 import com.employeemanagementsystem.finastech.response.JustPerTypeResponse;
 import com.employeemanagementsystem.finastech.service.impl.JustPerTypeServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,8 @@ public class JustPerTypeController {
         return new ResponseEntity<>(createdType, HttpStatus.CREATED);
 
     }
+
+
 
     //for admin izin türü silme
     @DeleteMapping("/admin/{justPerId}")
