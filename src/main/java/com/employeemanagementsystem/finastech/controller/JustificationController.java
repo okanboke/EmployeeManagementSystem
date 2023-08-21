@@ -1,13 +1,13 @@
 package com.employeemanagementsystem.finastech.controller;
 
-import com.employeemanagementsystem.finastech.entity.Address;
 import com.employeemanagementsystem.finastech.entity.JustificationPermission;
-import com.employeemanagementsystem.finastech.request.CreateProfileRequest;
-import com.employeemanagementsystem.finastech.request.JustificationCreateRequest;
-import com.employeemanagementsystem.finastech.request.UpdatePermissionRequest;
+import com.employeemanagementsystem.finastech.request.*;
+import com.employeemanagementsystem.finastech.response.JustificationPerResponse;
 import com.employeemanagementsystem.finastech.service.impl.JustificationServiceImpl;
-import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/permissions")
@@ -18,6 +18,15 @@ public class JustificationController {
 
     public JustificationController(JustificationServiceImpl justificationService) {
         this.justificationService = justificationService;
+    }
+
+    //for user spefisik izin görüntüleme
+    @GetMapping("/user/list-permissions")
+    public ResponseEntity<List<JustificationPerResponse>> getOneUserPermissions(@RequestBody UserRequest userRequest){
+        //return justificationService.getOneUserPermissions(userId);
+        List<JustificationPerResponse> list = justificationService.getOneUserPermissions(userRequest.getId());
+        return ResponseEntity.ok(list);
+
     }
 
     //for admin izin onayı

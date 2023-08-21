@@ -19,6 +19,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.userService = userService;
         this.employeeRepository = employeeRepository;
     }
+    //spesifik adres listeleme
     @Override //adressId listeleme
     public Address getOneByAddressUserId(Long userId) { //spesifik bir kullanıcı listelenecek
         return employeeRepository.findByUser_Id(userId).orElse(null);

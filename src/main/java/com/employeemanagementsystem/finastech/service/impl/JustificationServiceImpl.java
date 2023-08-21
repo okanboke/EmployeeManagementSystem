@@ -6,12 +6,12 @@ import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.JustificationRepository;
 import com.employeemanagementsystem.finastech.request.JustificationCreateRequest;
 import com.employeemanagementsystem.finastech.request.UpdatePermissionRequest;
-import com.employeemanagementsystem.finastech.response.AllUserResponse;
 import com.employeemanagementsystem.finastech.response.JustificationPerResponse;
 import com.employeemanagementsystem.finastech.service.JustificationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +37,7 @@ public class JustificationServiceImpl implements JustificationService {
 
         //İzin tipi tabloya id ile eşleşecek
         JustPerType justPerType = justPerTypeService.getOneJustPerTypeById(justificationCreateRequest.getPermissionTypeId());
-        if(user == null && justPerType == null)
+        if (user == null && justPerType == null)
             return null;
 
         JustificationPermission toSave = new JustificationPermission();
@@ -50,7 +50,8 @@ public class JustificationServiceImpl implements JustificationService {
 
         toSave.setJustPerType(justPerType);
         toSave.setUser(user);
-        return justificationRepository.save(toSave);    }
+        return justificationRepository.save(toSave);
+    }
 
     //Mazeret İzin isteklerini listeleme Admin
     @Override
@@ -73,4 +74,12 @@ public class JustificationServiceImpl implements JustificationService {
                     return null;
                 });
     }
+
+    //userId'ye göre izin listeleme
+    @Override
+    public List<JustificationPerResponse> getOneUserPermissions(Long userId) {
+        return justificationRepository.findByUser_Id(userId);
+
+    }
 }
+
