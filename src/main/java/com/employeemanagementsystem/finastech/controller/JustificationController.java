@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/api/permissions")
 public class JustificationController {
 
-
     private final JustificationServiceImpl justificationService;
 
     public JustificationController(JustificationServiceImpl justificationService) {
@@ -21,7 +20,7 @@ public class JustificationController {
     }
 
     //for user spefisik izin görüntüleme
-    @GetMapping("/user/list-permissions")
+    @PostMapping("/user/list-permissions")
     public ResponseEntity<List<JustificationPerResponse>> getOneUserPermissions(@RequestBody UserRequest userRequest){
         //return justificationService.getOneUserPermissions(userId);
         List<JustificationPerResponse> list = justificationService.getOneUserPermissions(userRequest.getId());

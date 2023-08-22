@@ -75,7 +75,7 @@ public class JustificationServiceImpl implements JustificationService {
                 });
     }
 
-    //userId'ye göre izin listeleme
+    //userId'ye göre user'ın kendi izinlerini listeleme
     @Override
     public List<JustificationPerResponse> getOneUserPermissions(Long userId) {
         return justificationRepository.findByUser_Id(userId);
