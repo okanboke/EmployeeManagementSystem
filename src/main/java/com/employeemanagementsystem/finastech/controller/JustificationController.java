@@ -25,7 +25,6 @@ public class JustificationController {
         //return justificationService.getOneUserPermissions(userId);
         List<JustificationPerResponse> list = justificationService.getOneUserPermissions(userRequest.getId());
         return ResponseEntity.ok(list);
-
     }
 
     //for admin izin onayı
