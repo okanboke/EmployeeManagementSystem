@@ -96,13 +96,15 @@ public class AuthController {
     @PostMapping("/admin/create-user") //Kayıt
     public ResponseEntity<String> register(@RequestBody UserRequest registerRequest) {
         if(userService.getOneUserByUserName(registerRequest.getUserName()) != null)
-            return new ResponseEntity<>("Kullanıcı adı zaten kayıtlı", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Kullanıcı adı zaten kayıtlı", HttpStatus.NOT_ACCEPTABLE);
         User user = new User();
         user.setUserName(registerRequest.getUserName());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
         user.setUserDate(registerRequest.getUserDate());
+        user.setPhoneNumber(registerRequest.getPhoneNumber());
+        user.setRestDay(registerRequest.getRestDay());
         Role role = roleRepository.findByRoleName("user");
         user.setRoles(Arrays.asList(role));
         userService.createUser(user);
@@ -128,6 +130,4 @@ public class AuthController {
         }
 
     }
-
-
 }

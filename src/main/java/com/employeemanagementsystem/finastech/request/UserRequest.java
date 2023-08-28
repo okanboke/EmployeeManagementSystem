@@ -17,5 +17,7 @@ public class UserRequest {
     private String password;
     private String firstName;
     private String lastName;
+    private String phoneNumber;
+    private int restDay;
     private Date userDate;
 }

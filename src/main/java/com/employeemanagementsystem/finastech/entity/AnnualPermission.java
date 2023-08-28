@@ -1,22 +1,23 @@
 package com.employeemanagementsystem.finastech.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "justification_permission")
+@Table(name = "annual_permissions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JustificationPermission {
+public class AnnualPermission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Id üretecek
@@ -28,16 +29,12 @@ public class JustificationPermission {
     @JsonIgnore
     private User user;
 
-    //private String permissionType;
-    private String permissionDescription;
+    private String type = "Yıllık İzin";
     private LocalDate startDate;
     private LocalDate endDate;
-    private Boolean approvalStatus = null; //izin istendiğinde false olacak sonra admin onaylayacak.
-
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "just_per_id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private JustPerType justPerType;
+    private String contactPersonName;
+    private int contactPerson;
+    private String travelLocation;
+    private Boolean approvalStatus; //izin istendiğinde false olacak sonra admin onaylayacak.
 
 }

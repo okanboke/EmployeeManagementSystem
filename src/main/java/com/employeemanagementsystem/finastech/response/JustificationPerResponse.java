@@ -32,7 +32,7 @@ public class JustificationPerResponse {
         this.permissionDescription = entity.getPermissionDescription();
         this.startDate = entity.getStartDate();
         this.endDate = entity.getEndDate();
-        this.approvalStatus = entity.isApprovalStatus();
+        this.approvalStatus = entity.getApprovalStatus();
     }
 
 

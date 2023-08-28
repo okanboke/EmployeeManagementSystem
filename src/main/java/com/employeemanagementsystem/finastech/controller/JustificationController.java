@@ -36,8 +36,9 @@ public class JustificationController {
 
     // izin isteği
     @PostMapping("/create") //role User
-    public JustificationPermission createOneLeave(
-            @RequestBody JustificationCreateRequest leaveCreateRequest) { //yeni bir ürün ekleme
-        return justificationService.createOneLeave(leaveCreateRequest/*,categories*/);
+    public ResponseEntity<JustificationPermission> createOneLeave(
+            @RequestBody JustificationCreateRequest leaveCreateRequest) { //yeni bir izin ekleme
+        JustificationPermission list = justificationService.createOneLeave(leaveCreateRequest);
+        return ResponseEntity.ok(list);
     }
 }
