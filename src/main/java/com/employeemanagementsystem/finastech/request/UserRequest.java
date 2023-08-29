@@ -1,10 +1,8 @@
 package com.employeemanagementsystem.finastech.request;
 
-import com.employeemanagementsystem.finastech.entity.Role;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

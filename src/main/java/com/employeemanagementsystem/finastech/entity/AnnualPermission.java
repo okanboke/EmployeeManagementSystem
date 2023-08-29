@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "annual_permissions")
@@ -30,8 +31,8 @@ public class AnnualPermission {
     private User user;
 
     private String type = "Yıllık İzin";
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
     private String contactPersonName;
     private int contactPerson;
     private String travelLocation;

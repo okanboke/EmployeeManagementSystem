@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class User {
     private int restDay;
     private String phoneNumber;
     //private boolean isActive = true;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private Date annualUpdateDate;
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date userDate;

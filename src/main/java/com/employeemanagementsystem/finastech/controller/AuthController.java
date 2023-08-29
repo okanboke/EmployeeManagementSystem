@@ -105,6 +105,7 @@ public class AuthController {
         user.setUserDate(registerRequest.getUserDate());
         user.setPhoneNumber(registerRequest.getPhoneNumber());
         user.setRestDay(registerRequest.getRestDay());
+        user.setAnnualUpdateDate(registerRequest.getUserDate()); //user'ın sisteme kaydolduğu gün null olmaması için izin güncelleme tarihi de işe giriş tarihi ile aynı olmalıdır.
         Role role = roleRepository.findByRoleName("user");
         user.setRoles(Arrays.asList(role));
         userService.createUser(user);

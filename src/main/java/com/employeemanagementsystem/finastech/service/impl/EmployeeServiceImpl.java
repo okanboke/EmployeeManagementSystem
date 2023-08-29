@@ -5,7 +5,6 @@ import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.EmployeeRepository;
 import com.employeemanagementsystem.finastech.request.CreateProfileRequest;
 import com.employeemanagementsystem.finastech.service.EmployeeService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

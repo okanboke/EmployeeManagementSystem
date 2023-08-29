@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/annual")
+@RequestMapping("/api/annual/permissions")
 public class AnnualPermissionController {
 
     private final AnnualPermissionServiceImpl annualPermissionService;
