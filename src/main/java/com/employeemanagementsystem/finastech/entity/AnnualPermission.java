@@ -30,11 +30,11 @@ public class AnnualPermission {
     @JsonIgnore
     private User user;
 
-    private String type = "Yıllık İzin";
+    private String type;
     private Date startDate;
     private Date endDate;
     private String contactPersonName;
-    private int contactPerson;
+    private String contactPerson;
     private String travelLocation;
     private Boolean approvalStatus; //izin istendiğinde false olacak sonra admin onaylayacak.
 

@@ -19,7 +19,7 @@ public class JustificationController {
         this.justificationService = justificationService;
     }
 
-    //for user spefisik izin görüntüleme
+    //for user izin görüntüleme
     @PostMapping("/user/list-permissions")
     public ResponseEntity<List<JustificationPerResponse>> getOneUserPermissions(@RequestBody UserRequest userRequest){
         //return justificationService.getOneUserPermissions(userId);

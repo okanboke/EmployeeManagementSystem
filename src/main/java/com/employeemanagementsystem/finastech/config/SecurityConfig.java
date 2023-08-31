@@ -80,13 +80,16 @@ public class SecurityConfig {
                 .exceptionHandling().authenticationEntryPoint(handler).and() //sonradan eklendi.
                 .authorizeHttpRequests((authorize) -> authorize
                         .antMatchers("/api/auth/admin/**").hasAuthority("admin") //sadece admin erişebilir
-                        .antMatchers(HttpMethod.GET,"/api/admin/list-user").hasAuthority("admin") //sadece admin erişebilir
-                        .antMatchers(HttpMethod.GET,"/api/admin/list-justification").hasAuthority("admin")  //sadece admin erişebilir
-                        .antMatchers(HttpMethod.POST,  "/api/permissions/type/admin/create-type").hasAuthority("admin")
-                        .antMatchers(HttpMethod.POST,  "/api/permissions/admin/**").hasAuthority("admin")
+                        .antMatchers(HttpMethod.GET, "/api/admin/list-user").hasAuthority("admin") //sadece admin erişebilir
+                        .antMatchers(HttpMethod.GET, "/api/admin/list-justification").hasAuthority("admin")  //sadece admin erişebilir
+                        .antMatchers(HttpMethod.POST, "/api/permissions/type/admin/create-type").hasAuthority("admin")
+                        .antMatchers(HttpMethod.POST, "/api/permissions/admin/**").hasAuthority("admin")
+                        /**/.antMatchers(HttpMethod.POST, "/api/annual/permissions/admin/list-permissions").hasAuthority("user")
 
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
+                        /**/.antMatchers(HttpMethod.POST, "/api/annual/permissions/user/list-permissions").hasAuthority("user")
+                        /**/.antMatchers(HttpMethod.POST, "/api/annual/permissions/user/create").hasAuthority("user")
                         .antMatchers(HttpMethod.POST, "/api/employee/**").hasAuthority("user")
                         .antMatchers(HttpMethod.GET, "/api/employee/**").hasAuthority("user")
                         .antMatchers(HttpMethod.GET, "/api/permissions/user/**").hasAuthority("user") //sadece admin erişebilir

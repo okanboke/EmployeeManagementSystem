@@ -1,8 +1,6 @@
 package com.employeemanagementsystem.finastech.component;
 
 import com.employeemanagementsystem.finastech.service.impl.AnnualPermissionServiceImpl;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

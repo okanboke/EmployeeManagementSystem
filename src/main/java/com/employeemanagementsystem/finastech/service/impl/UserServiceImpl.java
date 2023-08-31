@@ -5,11 +5,9 @@ import com.employeemanagementsystem.finastech.entity.Role;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.RoleRepository;
 import com.employeemanagementsystem.finastech.repository.UserRepository;
-import com.employeemanagementsystem.finastech.request.CreateProfileRequest;
 import com.employeemanagementsystem.finastech.response.AllUserResponse;
 import com.employeemanagementsystem.finastech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
