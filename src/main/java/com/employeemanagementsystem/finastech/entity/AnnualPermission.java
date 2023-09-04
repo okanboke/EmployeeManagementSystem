@@ -1,5 +1,6 @@
 package com.employeemanagementsystem.finastech.entity;
 
+import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +10,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
 
 @Entity
 @Table(name = "annual_permissions")
@@ -38,4 +39,6 @@ public class AnnualPermission {
     private String travelLocation;
     private Boolean approvalStatus; //izin istendiğinde false olacak sonra admin onaylayacak.
 
+    @Transient
+    private String errorMessage;
 }

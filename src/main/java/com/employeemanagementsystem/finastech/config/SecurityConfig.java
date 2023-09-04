@@ -84,7 +84,8 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/api/admin/list-justification").hasAuthority("admin")  //sadece admin erişebilir
                         .antMatchers(HttpMethod.POST, "/api/permissions/type/admin/create-type").hasAuthority("admin")
                         .antMatchers(HttpMethod.POST, "/api/permissions/admin/**").hasAuthority("admin")
-                        /**/.antMatchers(HttpMethod.POST, "/api/annual/permissions/admin/list-permissions").hasAuthority("user")
+                        .antMatchers(HttpMethod.PUT, "/api/permissions/admin/update-status").hasAuthority("admin")
+                        .antMatchers(HttpMethod.GET, "/api/annual/permissions/admin/list-permissions").hasAuthority("admin")
 
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
@@ -92,8 +93,8 @@ public class SecurityConfig {
                         /**/.antMatchers(HttpMethod.POST, "/api/annual/permissions/user/create").hasAuthority("user")
                         .antMatchers(HttpMethod.POST, "/api/employee/**").hasAuthority("user")
                         .antMatchers(HttpMethod.GET, "/api/employee/**").hasAuthority("user")
-                        .antMatchers(HttpMethod.GET, "/api/permissions/user/**").hasAuthority("user") //sadece admin erişebilir
-                        .antMatchers(HttpMethod.PUT, "/api/employee/**").hasAuthority("user") //sadece admin erişebilir
+                        .antMatchers(HttpMethod.GET, "/api/permissions/user/**").hasAuthority("user") //sadece user erişebilir
+                        .antMatchers(HttpMethod.PUT, "/api/employee/**").hasAuthority("user") //sadece user erişebilir
                         .antMatchers(HttpMethod.GET, "/api/permissions/type//user/list-types").permitAll()
                         .antMatchers(HttpMethod.POST, "/api/auth/user/login").permitAll()
 

@@ -1,13 +1,13 @@
 package com.employeemanagementsystem.finastech.controller;
 
 import com.employeemanagementsystem.finastech.entity.AnnualPermission;
-import com.employeemanagementsystem.finastech.entity.JustificationPermission;
+import com.employeemanagementsystem.finastech.exception.AnnualExpception;
 import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
-import com.employeemanagementsystem.finastech.request.JustificationCreateRequest;
 import com.employeemanagementsystem.finastech.request.UserRequest;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
-import com.employeemanagementsystem.finastech.response.JustificationPerResponse;
+import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
 import com.employeemanagementsystem.finastech.service.impl.AnnualPermissionServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +23,16 @@ public class AnnualPermissionController {
         this.annualPermissionService = annualPermissionService;
     }
 
+
     //for Admin Yıllık izin listeleme
     @GetMapping("/admin/list-annual") //Role Admin
-    public List<AnnualPermissionResponse> getAllAnnualPermissions(){
+    public List<AnnualPermissionResponse> getAllAnnualPermissions() {
         return annualPermissionService.getAllAnnualPermissions();
     }
 
     //for user izin görüntüleme
     @PostMapping("/user/list-permissions")
-    public ResponseEntity<List<AnnualPermissionResponse>> getOneUserPermissions(@RequestBody UserRequest userRequest){
+    public ResponseEntity<List<AnnualPermissionResponse>> getOneUserPermissions(@RequestBody UserRequest userRequest) {
         //return justificationService.getOneUserPermissions(userId);
         List<AnnualPermissionResponse> list = annualPermissionService.getUserAnnualPermissions(userRequest.getId());
         return ResponseEntity.ok(list);
@@ -41,7 +42,15 @@ public class AnnualPermissionController {
     @PostMapping("/user/create")
     public ResponseEntity<AnnualPermission> createOneLeave(
             @RequestBody AnnualCreateRequest annualCreateRequest) {
-        AnnualPermission list = annualPermissionService.createPermission(annualCreateRequest);
-        return ResponseEntity.ok(list);
+        AnnualPermission model = new AnnualPermission();
+        try {
+            model = annualPermissionService.createPermission(annualCreateRequest);
+            return new ResponseEntity<>(model, HttpStatus.OK);
+        }
+        catch (AnnualExpception ex) {
+            model.setErrorMessage(ex.getMessage());
+            return new ResponseEntity<>(model, HttpStatus.NOT_ACCEPTABLE);
+        }
+
     }
 }

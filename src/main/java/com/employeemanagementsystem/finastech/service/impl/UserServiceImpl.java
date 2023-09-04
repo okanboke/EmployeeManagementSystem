@@ -20,14 +20,11 @@ public class UserServiceImpl implements UserService {
 
     private final RoleRepository roleRepository;
 
-    private final AnnualPermissionServiceImpl annualPermissionService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-    AnnualPermissionServiceImpl annualPermissionService) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.annualPermissionService = annualPermissionService;
     }
 
     @Override

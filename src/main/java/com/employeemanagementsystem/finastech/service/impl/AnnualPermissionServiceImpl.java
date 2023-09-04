@@ -2,17 +2,19 @@ package com.employeemanagementsystem.finastech.service.impl;
 
 import com.employeemanagementsystem.finastech.entity.AnnualPermission;
 import com.employeemanagementsystem.finastech.entity.User;
+import com.employeemanagementsystem.finastech.exception.AnnualExpception;
 import com.employeemanagementsystem.finastech.repository.AnnualPermissionRepository;
 import com.employeemanagementsystem.finastech.repository.UserRepository;
 import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
+import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
 import com.employeemanagementsystem.finastech.service.AnnualPermissionService;
-import com.employeemanagementsystem.finastech.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -23,11 +25,11 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
 
     private final UserRepository userRepository;
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     public AnnualPermissionServiceImpl(AnnualPermissionRepository annualPermissionRepository,
                                        UserRepository userRepository,
-                                       UserService userService) {
+                                       UserServiceImpl userService) {
         this.annualPermissionRepository = annualPermissionRepository;
         this.userRepository = userRepository;
         this.userService = userService;
@@ -81,7 +83,22 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
         toSave.setApprovalStatus(annualCreateRequest.getApprovalStatus());
 
         toSave.setUser(user);
-        return annualPermissionRepository.save(toSave);
+
+        //mevcut izinden alınan izin çıkarılacak
+        Long differenceInMillis = Math.abs(annualCreateRequest.getStartDate().getTime() - annualCreateRequest.getEndDate().getTime());
+        Long daysDifference = TimeUnit.DAYS.convert(differenceInMillis, TimeUnit.MILLISECONDS);
+        int daysDifferenceToInt = daysDifference.intValue();
+        int restDayGetter = toSave.getUser().getRestDay();
+
+        if(daysDifferenceToInt > restDayGetter && restDayGetter == 0) {
+            toSave.setErrorMessage("İzin hakkınız bulunmuyor");
+            throw new AnnualExpception(toSave.getErrorMessage());
+            //return AnnualExpception; //hata mesajı dönülebilir
+        }
+        else {
+            toSave.getUser().setRestDay(restDayGetter - daysDifferenceToInt);
+            return annualPermissionRepository.save(toSave);
+        }
     }
 
     @Override
