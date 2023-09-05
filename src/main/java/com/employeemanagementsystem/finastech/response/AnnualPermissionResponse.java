@@ -10,8 +10,11 @@ import java.util.Date;
 public class AnnualPermissionResponse {
 
     private Long permissionId;
-    private Long userId;
+    private Long id;
     private String type;
+    private String userName;
+    private String firstName;
+    private String lastName;
     private String contactPersonName;
     private String contactPerson;
     private String travelLocation;
@@ -21,7 +24,10 @@ public class AnnualPermissionResponse {
 
     public AnnualPermissionResponse(AnnualPermission entity) {
         this.permissionId = entity.getPermissionId();
-        this.userId = entity.getUser().getId();
+        this.id = entity.getUser().getId();
+        this.userName = entity.getUser().getUserName();
+        this.firstName = entity.getUser().getFirstName();
+        this.lastName = entity.getUser().getLastName();
         this.type = entity.getType();
         this.contactPersonName = entity.getContactPersonName();
         this.contactPerson = entity.getContactPerson();

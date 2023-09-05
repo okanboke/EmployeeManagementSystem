@@ -23,7 +23,6 @@ public class AnnualPermissionController {
         this.annualPermissionService = annualPermissionService;
     }
 
-
     //for Admin Yıllık izin listeleme
     @GetMapping("/admin/list-annual") //Role Admin
     public List<AnnualPermissionResponse> getAllAnnualPermissions() {
@@ -51,6 +50,5 @@ public class AnnualPermissionController {
             model.setErrorMessage(ex.getMessage());
             return new ResponseEntity<>(model, HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 }

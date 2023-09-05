@@ -2,9 +2,9 @@ package com.employeemanagementsystem.finastech.service;
 
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.dto.RegistrationDto;
-import com.employeemanagementsystem.finastech.request.CreateProfileRequest;
+import com.employeemanagementsystem.finastech.request.UserRequest;
 import com.employeemanagementsystem.finastech.response.AllUserResponse;
-import org.springframework.http.ResponseEntity;
+import com.employeemanagementsystem.finastech.response.UserInfoResponse;
 
 import java.util.List;
 
@@ -20,4 +20,5 @@ public interface UserService {
     //Teddy saveUser
     void saveUser(RegistrationDto registrationDto);
 
+    UserInfoResponse getOneUserInfoById(UserRequest userInfoRequest);
 }

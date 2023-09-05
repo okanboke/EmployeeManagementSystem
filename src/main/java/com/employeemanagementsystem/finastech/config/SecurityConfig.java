@@ -89,8 +89,9 @@ public class SecurityConfig {
 
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
-                        /**/.antMatchers(HttpMethod.POST, "/api/annual/permissions/user/list-permissions").hasAuthority("user")
-                        /**/.antMatchers(HttpMethod.POST, "/api/annual/permissions/user/create").hasAuthority("user")
+                        .antMatchers(HttpMethod.POST, "/api/employee/user-home/userInfo").hasAuthority("user")
+                        .antMatchers(HttpMethod.POST, "/api/annual/permissions/user/list-permissions").hasAuthority("user")
+                        .antMatchers(HttpMethod.POST, "/api/annual/permissions/user/create").hasAuthority("user")
                         .antMatchers(HttpMethod.POST, "/api/employee/**").hasAuthority("user")
                         .antMatchers(HttpMethod.GET, "/api/employee/**").hasAuthority("user")
                         .antMatchers(HttpMethod.GET, "/api/permissions/user/**").hasAuthority("user") //sadece user erişebilir

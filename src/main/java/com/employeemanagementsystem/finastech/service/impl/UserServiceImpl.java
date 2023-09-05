@@ -1,11 +1,14 @@
 package com.employeemanagementsystem.finastech.service.impl;
 
 import com.employeemanagementsystem.finastech.dto.RegistrationDto;
+import com.employeemanagementsystem.finastech.entity.AnnualPermission;
 import com.employeemanagementsystem.finastech.entity.Role;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.repository.RoleRepository;
 import com.employeemanagementsystem.finastech.repository.UserRepository;
+import com.employeemanagementsystem.finastech.request.UserRequest;
 import com.employeemanagementsystem.finastech.response.AllUserResponse;
+import com.employeemanagementsystem.finastech.response.UserInfoResponse;
 import com.employeemanagementsystem.finastech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +64,25 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByRoleName("user");
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
+    }
+
+    @Override //Post işlemi ile spesifik user bilgileri eşitlenip return ediliyor.
+    public UserInfoResponse getOneUserInfoById(UserRequest userInfoRequest) {
+        Optional<User> user = userRepository.findById(userInfoRequest.getId()); //user kontrolü yapıp post ekleyeceğiz
+        if (user == null)
+            return null;
+
+        UserInfoResponse toGet = new UserInfoResponse();
+        toGet.setId(user.get().getId());
+        toGet.setUserName(user.get().getUserName());
+        toGet.setFirstName(user.get().getFirstName());
+        toGet.setLastName(user.get().getLastName());
+        toGet.setRestDay(user.get().getRestDay());
+        toGet.setPhoneNumber(user.get().getPhoneNumber());
+        toGet.setAnnualUpdateDate(user.get().getAnnualUpdateDate());
+        toGet.setUserDate(user.get().getUserDate());
+        toGet.setRoles(user.get().getRoles().listIterator().next().getRoleName()); //List Iterator ile roleName'e ulaşıyoruz.
+        return toGet;
     }
     //Çalışan profil ekleme
 

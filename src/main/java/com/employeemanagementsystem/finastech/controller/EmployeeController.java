@@ -4,11 +4,17 @@ import com.employeemanagementsystem.finastech.entity.Address;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.exception.UserNotFoundException;
 import com.employeemanagementsystem.finastech.request.CreateProfileRequest;
+import com.employeemanagementsystem.finastech.request.UserRequest;
 import com.employeemanagementsystem.finastech.response.AddressResponse;
+import com.employeemanagementsystem.finastech.response.UserInfoResponse;
 import com.employeemanagementsystem.finastech.response.UserResponse;
 import com.employeemanagementsystem.finastech.service.impl.EmployeeServiceImpl;
 import com.employeemanagementsystem.finastech.service.impl.UserServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -33,6 +39,15 @@ public class EmployeeController {
             throw new UserNotFoundException();
         }
         return new UserResponse(user);
+    }
+
+    //spesifik user bilgileri.
+    @PostMapping("/user-home/userInfo")
+    public ResponseEntity<UserInfoResponse> getOneUserInfo(@RequestBody UserRequest userInfoRequest) {
+        //return justificationService.getOneUserPermissions(userId);
+        UserInfoResponse list = new UserInfoResponse();
+        list = userService.getOneUserInfoById(userInfoRequest);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     //profile user address info
