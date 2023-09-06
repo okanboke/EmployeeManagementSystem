@@ -32,7 +32,7 @@ public class JustificationPermission {
     private String permissionDescription;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Boolean approvalStatus = null; //izin istendiğinde false olacak sonra admin onaylayacak.
+    private boolean approvalStatus = false; //izin istendiğinde false olacak sonra admin onaylayacak.
 
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "just_per_id",nullable = false)

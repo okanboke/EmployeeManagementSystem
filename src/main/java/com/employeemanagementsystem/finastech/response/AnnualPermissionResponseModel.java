@@ -36,7 +36,7 @@ public class AnnualPermissionResponseModel {
         this.contactPersonName = entity.getContactPersonName();
         this.contactPerson = entity.getContactPerson();
         this.travelLocation = entity.getTravelLocation();
-        this.approvalStatus = entity.getApprovalStatus();
+        this.approvalStatus = entity.isApprovalStatus();
     }
 
 }

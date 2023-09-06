@@ -37,7 +37,7 @@ public class AnnualPermission {
     private String contactPersonName;
     private String contactPerson;
     private String travelLocation;
-    private Boolean approvalStatus; //izin istendiğinde false olacak sonra admin onaylayacak.
+    private boolean approvalStatus = false; //izin istendiğinde false olacak sonra admin onaylayacak.
 
     @Transient
     private String errorMessage;

@@ -1,8 +1,11 @@
 package com.employeemanagementsystem.finastech.controller;
 
 import com.employeemanagementsystem.finastech.entity.AnnualPermission;
+import com.employeemanagementsystem.finastech.entity.JustificationPermission;
 import com.employeemanagementsystem.finastech.exception.AnnualExpception;
 import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
+import com.employeemanagementsystem.finastech.request.UpdateAnnualRequest;
+import com.employeemanagementsystem.finastech.request.UpdatePermissionRequest;
 import com.employeemanagementsystem.finastech.request.UserRequest;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
@@ -35,6 +38,13 @@ public class AnnualPermissionController {
         //return justificationService.getOneUserPermissions(userId);
         List<AnnualPermissionResponse> list = annualPermissionService.getUserAnnualPermissions(userRequest.getId());
         return ResponseEntity.ok(list);
+    }
+
+    //for admin izin onayı
+    @PutMapping("/admin/update-status")
+    public AnnualPermission updatePermissionStatus(
+            @RequestBody UpdateAnnualRequest updatePermissionRequest) {
+        return annualPermissionService.updatePermissionStatus(updatePermissionRequest);
     }
 
     //for User yıllık izin talebi

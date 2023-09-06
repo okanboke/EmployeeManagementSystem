@@ -1,11 +1,14 @@
 package com.employeemanagementsystem.finastech.service.impl;
 
 import com.employeemanagementsystem.finastech.entity.AnnualPermission;
+import com.employeemanagementsystem.finastech.entity.JustificationPermission;
 import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.exception.AnnualExpception;
 import com.employeemanagementsystem.finastech.repository.AnnualPermissionRepository;
 import com.employeemanagementsystem.finastech.repository.UserRepository;
 import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
+import com.employeemanagementsystem.finastech.request.UpdateAnnualRequest;
+import com.employeemanagementsystem.finastech.request.UpdatePermissionRequest;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
 import com.employeemanagementsystem.finastech.service.AnnualPermissionService;
@@ -111,5 +114,19 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
         List<AnnualPermission> list;
         list = annualPermissionRepository.findAll();
         return list.stream().map(annual_permissions -> new AnnualPermissionResponse(annual_permissions)).collect(Collectors.toList());
+    }
+
+    //for admin izin onayı
+    //koşul eklenecek
+    @Override
+    public AnnualPermission updatePermissionStatus(UpdateAnnualRequest updatePermissionRequest) {
+        return annualPermissionRepository.findById(updatePermissionRequest.getPermissionId())
+        .map(annual_permissions -> {
+            annual_permissions.setApprovalStatus(updatePermissionRequest.isApprovalStatus());
+            return annualPermissionRepository.save(annual_permissions);
+        })
+                .orElseGet(() -> {
+                    return null;
+                });
     }
 }

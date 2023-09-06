@@ -2,8 +2,8 @@ package com.employeemanagementsystem.finastech.service;
 
 import com.employeemanagementsystem.finastech.entity.AnnualPermission;
 import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
+import com.employeemanagementsystem.finastech.request.UpdateAnnualRequest;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
-import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
 
 import java.util.List;
 
@@ -15,4 +15,6 @@ public interface AnnualPermissionService {
     List<AnnualPermissionResponse> getUserAnnualPermissions(Long id);
 
     List<AnnualPermissionResponse> getAllAnnualPermissions();
+
+    AnnualPermission updatePermissionStatus(UpdateAnnualRequest updatePermissionRequest);
 }
