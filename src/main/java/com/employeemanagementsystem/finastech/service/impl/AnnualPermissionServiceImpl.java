@@ -6,14 +6,19 @@ import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.exception.AnnualExpception;
 import com.employeemanagementsystem.finastech.repository.AnnualPermissionRepository;
 import com.employeemanagementsystem.finastech.repository.UserRepository;
+import com.employeemanagementsystem.finastech.request.AnnualCalcRequest;
 import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
 import com.employeemanagementsystem.finastech.request.UpdateAnnualRequest;
 import com.employeemanagementsystem.finastech.request.UpdatePermissionRequest;
+import com.employeemanagementsystem.finastech.response.AnnualCalcResponse;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
 import com.employeemanagementsystem.finastech.service.AnnualPermissionService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
@@ -128,5 +133,41 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
                 .orElseGet(() -> {
                     return null;
                 });
+    }
+
+    @Override
+    public AnnualCalcResponse annualCalculate(AnnualCalcRequest annualCalcRequest) {
+        // Başlangıç ve bitiş tarihleri
+        LocalDate startDate = annualCalcRequest.getStartDate();
+        LocalDate endDate = annualCalcRequest.getEndDate();
+
+        // Resmi tatilleri ve bayramları içeren bir liste
+        List<LocalDate> holidayList = new ArrayList<>();
+        holidayList.add(LocalDate.of(2023, 1, 1)); // Yılbaşı
+        holidayList.add(LocalDate.of(2023, 4, 21)); // Ramazan Bayramı
+        holidayList.add(LocalDate.of(2023, 4, 22)); // Ramazan Bayramı
+        holidayList.add(LocalDate.of(2023, 4, 23)); // Ramazan Bayramı / Çocuk Bayramı
+        holidayList.add(LocalDate.of(2023, 4, 24)); // Ramazan Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 1)); // İşçi Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 19)); // Atatürkü anma ve gençlik spor bayramı
+        holidayList.add(LocalDate.of(2023, 5, 28)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 29)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 30)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 31)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 7, 15)); // Demokrasi Bayramı
+        holidayList.add(LocalDate.of(2023, 8, 30)); // Zafer Bayramı
+        holidayList.add(LocalDate.of(2023, 10, 29)); // Cumhuriyet Bayramı
+
+        Long calc = ChronoUnit.DAYS.between(annualCalcRequest.getStartDate(), annualCalcRequest.getEndDate());
+        Long restDays = calc;
+        for (LocalDate tatil : holidayList) {
+            if (tatil.isAfter(startDate) && tatil.isBefore(endDate)) {
+                restDays--; // Tatiller çıkartılır
+            }
+        }
+        AnnualCalcResponse response = new AnnualCalcResponse();
+        response.setRestDayCalc(restDays);
+        return response;
+        //return new AnnualCalcResponse().setRestDayCalc(restDays);
     }
 }

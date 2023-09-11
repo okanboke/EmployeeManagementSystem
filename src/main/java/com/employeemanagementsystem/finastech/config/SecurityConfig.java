@@ -90,6 +90,7 @@ public class SecurityConfig {
 
                         .antMatchers(HttpMethod.POST, "/api/auth/login").permitAll() //sadece admin erişebilir
 
+                        /****/.antMatchers(HttpMethod.POST, "/api/annual/permissions/user/calculate").hasAuthority("user")
                         .antMatchers(HttpMethod.POST, "/api/employee/user-home/userInfo").hasAuthority("user")
                         .antMatchers(HttpMethod.POST, "/api/annual/permissions/user/list-permissions").hasAuthority("user")
                         .antMatchers(HttpMethod.POST, "/api/annual/permissions/user/create").hasAuthority("user")

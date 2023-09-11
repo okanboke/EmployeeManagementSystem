@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
 
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
@@ -39,7 +40,6 @@ public class UserServiceImpl implements UserService {
     public List<AllUserResponse> getAllUsers() { //tüm kullanıcılar listelenecek
        List<User> list;
        list = userRepository.findAll();
-       //annualPermissionService.updateRestDaysForUsers();
 
        return list.stream().map(users -> new AllUserResponse(users)).collect(Collectors.toList());
     }

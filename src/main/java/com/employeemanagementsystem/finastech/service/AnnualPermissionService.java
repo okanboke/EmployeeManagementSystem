@@ -1,8 +1,10 @@
 package com.employeemanagementsystem.finastech.service;
 
 import com.employeemanagementsystem.finastech.entity.AnnualPermission;
+import com.employeemanagementsystem.finastech.request.AnnualCalcRequest;
 import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
 import com.employeemanagementsystem.finastech.request.UpdateAnnualRequest;
+import com.employeemanagementsystem.finastech.response.AnnualCalcResponse;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
 
 import java.util.List;
@@ -17,4 +19,6 @@ public interface AnnualPermissionService {
     List<AnnualPermissionResponse> getAllAnnualPermissions();
 
     AnnualPermission updatePermissionStatus(UpdateAnnualRequest updatePermissionRequest);
+
+    AnnualCalcResponse annualCalculate(AnnualCalcRequest annualCalcRequest);
 }

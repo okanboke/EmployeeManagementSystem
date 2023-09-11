@@ -2,11 +2,10 @@ package com.employeemanagementsystem.finastech.controller;
 
 import com.employeemanagementsystem.finastech.entity.AnnualPermission;
 import com.employeemanagementsystem.finastech.entity.JustificationPermission;
+import com.employeemanagementsystem.finastech.entity.User;
 import com.employeemanagementsystem.finastech.exception.AnnualExpception;
-import com.employeemanagementsystem.finastech.request.AnnualCreateRequest;
-import com.employeemanagementsystem.finastech.request.UpdateAnnualRequest;
-import com.employeemanagementsystem.finastech.request.UpdatePermissionRequest;
-import com.employeemanagementsystem.finastech.request.UserRequest;
+import com.employeemanagementsystem.finastech.request.*;
+import com.employeemanagementsystem.finastech.response.AnnualCalcResponse;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponse;
 import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseModel;
 import com.employeemanagementsystem.finastech.service.impl.AnnualPermissionServiceImpl;
@@ -60,5 +59,15 @@ public class AnnualPermissionController {
             model.setErrorMessage(ex.getMessage());
             return new ResponseEntity<>(model, HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+    //bff ve fronend'e eklenecek
+    //for User yıllık izin günü hesaplama
+    @PostMapping("/user/calculate")
+    public ResponseEntity<AnnualCalcResponse> annualCalculate(
+            @RequestBody AnnualCalcRequest annualCalcRequest) {
+        AnnualCalcResponse calculator = annualPermissionService.annualCalculate(annualCalcRequest);
+        return new ResponseEntity<>(calculator, HttpStatus.CREATED);
+
+
     }
 }

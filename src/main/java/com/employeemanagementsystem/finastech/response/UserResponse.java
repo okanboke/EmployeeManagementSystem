@@ -2,6 +2,7 @@ package com.employeemanagementsystem.finastech.response;
 
 import com.employeemanagementsystem.finastech.entity.Address;
 import com.employeemanagementsystem.finastech.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.util.Date;
@@ -19,6 +20,9 @@ public class UserResponse {
     private String userName;
     private String firstName;
     private String lastName;
+
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date userDate;
 
 
