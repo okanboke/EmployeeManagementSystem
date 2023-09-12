@@ -16,7 +16,9 @@ import com.employeemanagementsystem.finastech.response.AnnualPermissionResponseM
 import com.employeemanagementsystem.finastech.service.AnnualPermissionService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +91,7 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
         toSave.setStartDate(annualCreateRequest.getStartDate());
         toSave.setEndDate(annualCreateRequest.getEndDate());
         toSave.setApprovalStatus(annualCreateRequest.getApprovalStatus());
+        toSave.setErrorMessage("Talebiniz başarıyla gönderildi.");
 
         toSave.setUser(user);
 
@@ -98,12 +101,47 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
         int daysDifferenceToInt = daysDifference.intValue();
         int restDayGetter = toSave.getUser().getRestDay();
 
+        // Başlangıç ve bitiş tarihleri
+        Date startDate = annualCreateRequest.getStartDate();
+        Date endDate = annualCreateRequest.getEndDate();
+
+        //Date convert LocalDate!
+        Instant sInstant = startDate.toInstant();
+        Instant eInstant = endDate.toInstant();
+        LocalDate sLocalDate = sInstant.atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate eLocalDate = eInstant.atZone(ZoneId.systemDefault()).toLocalDate();
+
+
+        // Resmi tatilleri ve bayramları içeren bir liste
+        List<LocalDate> holidayList = new ArrayList<>();
+        holidayList.add(LocalDate.of(2023, 1, 1)); // Yılbaşı
+        holidayList.add(LocalDate.of(2023, 4, 21)); // Ramazan Bayramı
+        holidayList.add(LocalDate.of(2023, 4, 22)); // Ramazan Bayramı
+        holidayList.add(LocalDate.of(2023, 4, 23)); // Ramazan Bayramı / Çocuk Bayramı
+        holidayList.add(LocalDate.of(2023, 4, 24)); // Ramazan Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 1)); // İşçi Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 19)); // Atatürk'ü anma ve gençlik spor bayramı
+        holidayList.add(LocalDate.of(2023, 5, 28)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 29)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 30)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 5, 31)); // Kurban Bayramı
+        holidayList.add(LocalDate.of(2023, 7, 15)); // Demokrasi Bayramı
+        holidayList.add(LocalDate.of(2023, 8, 30)); // Zafer Bayramı
+        holidayList.add(LocalDate.of(2023, 10, 29)); // Cumhuriyet Bayramı
+
+
         if(daysDifferenceToInt > restDayGetter && restDayGetter == 0) {
             toSave.setErrorMessage("İzin hakkınız bulunmuyor");
             throw new AnnualExpception(toSave.getErrorMessage());
             //return AnnualExpception; //hata mesajı dönülebilir
         }
+
         else {
+            for (LocalDate tatil : holidayList) {
+                if (tatil.isAfter(sLocalDate) && tatil.isBefore(eLocalDate)) {
+                    daysDifferenceToInt--; // Tatiller çıkartılır
+                }
+            }
             toSave.getUser().setRestDay(restDayGetter - daysDifferenceToInt);
             return annualPermissionRepository.save(toSave);
         }
@@ -137,6 +175,14 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
 
     @Override
     public AnnualCalcResponse annualCalculate(AnnualCalcRequest annualCalcRequest) {
+        User user = userService.getOneUserById(annualCalcRequest.getId()); //user kontrolü yapıp post ekleyeceğiz
+        AnnualCalcResponse response = new AnnualCalcResponse();
+
+        if (annualCalcRequest.getId() != null && annualCalcRequest.getStartDate() == null){
+            response.setRestDay(user.getRestDay());
+            response.setErrorMessage(user.getRestDay() + " gün izniniz bulunmakta");
+            return response;
+        }
         // Başlangıç ve bitiş tarihleri
         LocalDate startDate = annualCalcRequest.getStartDate();
         LocalDate endDate = annualCalcRequest.getEndDate();
@@ -159,14 +205,15 @@ public class AnnualPermissionServiceImpl implements AnnualPermissionService {
         holidayList.add(LocalDate.of(2023, 10, 29)); // Cumhuriyet Bayramı
 
         Long calc = ChronoUnit.DAYS.between(annualCalcRequest.getStartDate(), annualCalcRequest.getEndDate());
-        Long restDays = calc;
-        for (LocalDate tatil : holidayList) {
-            if (tatil.isAfter(startDate) && tatil.isBefore(endDate)) {
-                restDays--; // Tatiller çıkartılır
+        int restDays = calc.intValue();
+            for (LocalDate tatil : holidayList) {
+                if (tatil.isAfter(startDate) && tatil.isBefore(endDate)) {
+                    restDays--; // Tatiller çıkartılır
             }
         }
-        AnnualCalcResponse response = new AnnualCalcResponse();
         response.setRestDayCalc(restDays);
+        response.setRestDay(user.getRestDay());
+        response.setErrorMessage("Başarıyla Hesaplandı!");
         return response;
         //return new AnnualCalcResponse().setRestDayCalc(restDays);
     }

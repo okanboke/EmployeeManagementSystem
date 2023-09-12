@@ -47,6 +47,7 @@ public class JustificationServiceImpl implements JustificationService {
         toSave.setStartDate(justificationCreateRequest.getStartDate());
         toSave.setEndDate(justificationCreateRequest.getEndDate());
         toSave.setApprovalStatus(justificationCreateRequest.isApprovalStatus());
+        toSave.setErrorMessage("Talebiniz başarıyla gönderildi");
 
         toSave.setJustPerType(justPerType);
         toSave.setUser(user);

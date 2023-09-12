@@ -40,4 +40,6 @@ public class JustificationPermission {
     @JsonIgnore
     private JustPerType justPerType;
 
+    @Transient
+    private String errorMessage;
 }

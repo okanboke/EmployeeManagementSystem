@@ -15,6 +15,7 @@ import java.util.Date;
 public class AnnualCalcRequest {
 
 
+    private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
 

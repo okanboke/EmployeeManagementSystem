@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AnnualCalcResponse {
 
-    private Long restDay;
-    private Long restDayCalc;
+    private int restDay;
+    private int restDayCalc;
     private String errorMessage;
 }
